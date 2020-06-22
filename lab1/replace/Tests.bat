@@ -46,15 +46,18 @@ REM Replacing on double substring
 fc test\output2.txt "%TEMP%\output.txt" > nul || goto err
 echo Test 9 passed
 
-REM Replacing on double substring
-%PROGRAM% test\input1.txt "%TEMP%\output.txt" ma mama || goto err
-fc test\output2.txt "%TEMP%\output.txt" > nul || goto err
-echo Test 9 passed
-
 REM Normal replace
 %PROGRAM% test\input1.txt "%TEMP%\output.txt" replace yes  || goto err
 fc test\output3.txt "%TEMP%\output.txt" > nul || goto err
 echo Test 10 passed
+
+REM Incorrect name of ountput
+%PROGRAM% test\input1.txt "%TEMP%\output?.txt" 3 5 && goto err
+echo Test 11 passed
+
+REM Incorrect name of ountput
+%PROGRAM% test\input00.txt "%TEMP%\output?.txt" 3 5 && goto err
+echo Test 12 passed
 
 REM Tests passed successfully
 echo Tests passed successfully

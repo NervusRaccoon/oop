@@ -3,6 +3,11 @@
 #include <string>
 
 using namespace std;
+	
+string InvalidArgument = "Invalid argument count";
+string NotExist = "File not exist";
+string EmptyString = "String can`t be empty";
+const int NumberArgs = 5;
 
 string ReplaceString(const string& subject,
 	const string& searchString, const string& replacementString)
@@ -33,35 +38,48 @@ void CopyFileWithReplace(istream& input, ostream& output,
 
 	while (getline(input, line))
 	{
-		output << ReplaceString(line, searchString, replacementString) << "\n";
+		string replStr = ReplaceString(line, searchString, replacementString);
+		output << replStr << endl;
 	}
 }
 
 int main(int argc, char* argv[])
 {
-	if (argc != 5)
+	if (argc != NumberArgs)
 	{
-		cout << "Invalid argument count\n"
-			<< "Usage: replace.exe <inputFile> <outputFile> <searchString> <replacementString>\n";
+		cout << InvalidArgument << endl;
 		return 1;
 	}
 
 	ifstream inputFile;
 	inputFile.open(argv[1]);
 	if (!inputFile.is_open())
+	{
+		cout << NotExist << endl;
 		return 1;
+	}
 
 	ofstream outputFile;
 	outputFile.open(argv[2]);
 	if (!outputFile.is_open())
+	{
+		cout << NotExist << endl;
 		return 1;
+	}
 
 	string search = argv[3];
 	if (search.empty())
+	{
+		cout << EmptyString << endl;
 		return 1;
+	}
+
 	string replace = argv[4];
 	if (replace.empty())
+	{
+		cout << EmptyString << endl;
 		return 1;
+	}
 
 	CopyFileWithReplace(inputFile, outputFile, search, replace);
 	outputFile.flush();
